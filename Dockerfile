@@ -2,10 +2,11 @@
 FROM ubuntu:20.04
 MAINTAINER Juri Bieler
 
-# Install gstreamer and opencv dependencies
-RUN \ 
-    apt-get update && apt-get upgrade -y
 
+RUN apt-get update 
+RUN apt-get upgrade -y
+
+# Install gstreamer and opencv dependencies
 RUN \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
 
@@ -22,23 +23,22 @@ RUN \
 	libgstreamer1.0-dev \
 	libgstreamer-plugins-base1.0-dev
 
-#RUN \
-#	apt-get install ubuntu-restricted-extras
-	
-#RUN \
-#	apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
 RUN \
 	apt-get install -y git
 
+# just for testing
+RUN \
+	apt-get -y install nano net-tools netcat
+
+# setup python
 RUN \
 	apt-get install -y python3-pip
 
 RUN \
 	pip3 install numpy
 
-# git checkout 4.1.0 && \
-
+# get opencv and build it
 RUN \
 	git clone https://github.com/opencv/opencv.git
 
@@ -47,9 +47,6 @@ RUN \
 
 RUN \
 	apt-get -y install cmake
-
-#RUN \
-#	https://github.com/Itseez/opencv/archive/4.5.4.zip
 
 RUN \
 	cd opencv && \
@@ -72,8 +69,5 @@ RUN \
 	make install && \
 	ldconfig
 
-RUN \
-	apt-get install -y mount
+
 	
-RUN \
-	apt-get -y install nano net-tools netcat
