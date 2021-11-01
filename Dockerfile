@@ -23,29 +23,25 @@ RUN \
 	libgstreamer-plugins-base1.0-dev
 
 
-RUN \
-	apt-get install -y git
+RUN apt-get install -y git
 
 # just for testing
-RUN \
-	apt-get -y install nano net-tools netcat
+RUN apt-get -y install nano net-tools netcat
 
 # setup python
-RUN \
-	apt-get install -y python3-pip
+RUN apt-get install -y python3-pip
 
-RUN \
-	pip3 install numpy
+# install mavlink dependencies: https://github.com/ArduPilot/pymavlink
+RUN apt-get install -y gcc python3-dev libxml2-dev libxslt-dev
+
+RUN pip3 install numpy future lxml pymavlink
 
 # get opencv and build it
-RUN \
-	git clone https://github.com/opencv/opencv.git
+RUN git clone https://github.com/opencv/opencv.git
 
-RUN \
-	apt-get install -y build-essential libssl-dev
+RUN apt-get install -y build-essential libssl-dev
 
-RUN \
-	apt-get -y install cmake
+RUN apt-get -y install cmake
 
 RUN \
 	cd opencv && \

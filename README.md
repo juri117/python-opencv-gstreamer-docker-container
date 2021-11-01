@@ -13,7 +13,7 @@ docker build -t opencv-test .
 
 * with windows file system folder mounted
 ```
-winpty docker run -v //c/data:/home/data -p 5000:5000/udp -it opencv-test
+winpty docker run -v //c/data:/home/data -p 5000:5000/udp -p 5004:5004/udp -it opencv-test
 ```
 * with wsl file system folder mounted
 	* this is faster since docker and wsl share the same filesystem
@@ -21,6 +21,8 @@ winpty docker run -v //c/data:/home/data -p 5000:5000/udp -it opencv-test
 winpty docker run -v //wsl$/Ubuntu-20.04/home/<user_name>/data:/home/data -it opencv-test
 ```
 * note: `winpty` is required when executing on windows from git-bash
+* port 5000 is the videao stream
+* port 5004 is mavlink
 
 ### setup wsl
 
@@ -50,6 +52,13 @@ gst-launch-1.0 v4l2src device=/dev/video0 ! h264parse ! avdec_h264 ! udpsink hos
 * receive signal from console [source](https://openhd.gitbook.io/open-hd/ground-station-software/gstreamer):
 ```
 gst-launch-1.0 udpsrc port=5000 ! h264parse ! avdec_h264 ! autovideosink sync=false
+```
+
+
+check for udp traffic:
+```
+apt-get install tcpdump
+tcpdump -n udp port 5000
 ```
 
 
