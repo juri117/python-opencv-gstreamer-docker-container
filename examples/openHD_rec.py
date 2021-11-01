@@ -53,10 +53,11 @@ def mav_thread():
         print("got pos")
     mav1.close()
 
-x = threading.Thread(target=mav_thread)
+x = threading.Thread(target=mav_thread, name="mav_rec")
+x.setDaemon(True)
 x.start()
 
-cap = cv2.VideoCapture("udpsrc port=5000 ! h264parse ! decodebin ! videoconvert ! appsink", cv2.CAP_GSTREAMER)
+cap = cv2.VideoCapture("udpsrc port=5600 ! h264parse ! decodebin ! videoconvert ! appsink", cv2.CAP_GSTREAMER)
 last_frame_ts = 0
 while True:
     ret,frame = cap.read()
